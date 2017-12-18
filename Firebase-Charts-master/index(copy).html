@@ -1,0 +1,366 @@
+<!doctype html>
+<html>
+
+<!-- function define -->
+<script type="text/javascript">  
+function httpGet(requestURL)
+{
+    var request = new XMLHttpRequest();
+    request.open('GET', requestURL, false);
+    request.responseType = 'json';
+    request.send();
+
+    return request.response;;
+}
+
+
+</script>
+
+
+<head>
+  <title>Firebase Basic Example</title>
+  <!-- including FusionCharts core package JS files -->
+  <script src="https://static.fusioncharts.com/code/latest/fusioncharts.js"></script>
+  <link rel="stylesheet" href="assets/css/main.css">
+
+  <!-- including Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+  <script src="assets/scripts/app.js"></script>
+  <script>
+    
+  
+  var database = firebase.database();
+
+  
+  var fulllist = [];
+  var humiditylist=[];
+  var temperaturelist=[];
+  var temperaturelist1=[];
+  var temperaturelist2=[];
+  var temperaturelist3=[];
+  var fulllist1 = [];
+  var humiditylist1=[];
+  var fulllist2 = [];
+  var humiditylist2=[];
+  var fulllist3 = [];
+  var humiditylist3=[];
+  var ref = database.ref().child("iot_final").child("0");
+  var ref1 = database.ref().child("iot_final").child("1");
+  var ref2 = database.ref().child("iot_final").child("2");
+  var ref3 = database.ref().child("iot_final").child("3");
+  
+
+  var temp
+  var u=0;
+  ref.on("value", function(snapshot) {
+    snapshot.forEach(function(child) {
+   
+    fulllist.push({x : u, y: Number(child.child("full").val())});
+    humiditylist.push({x : u, y: Number(child.child("humidity").val())});
+    temperaturelist.push({x : u, y: Number(child.child("temperature").val())});
+    u+=10;
+    
+  })
+  }, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+  });
+  
+  
+  var temp1
+  var u1=0;
+  ref1.on("value", function(snapshot) {
+     snapshot.forEach(function(child) {
+    fulllist1.push({x : u1, y: Number(child.child("full").val())});
+    humiditylist1.push({x : u1, y: Number(child.child("humidity").val())});
+    temperaturelist1.push({x : u1, y: Number(child.child("temperature").val())});
+    u1+=10;
+    
+  });
+    
+  }, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+  });
+  
+  var temp2
+  var u2=0;
+  ref2.on("value", function(snapshot) {
+    snapshot.forEach(function(child) {
+    fulllist2.push({x : u2, y: Number(child.child("full").val())});
+    humiditylist2.push({x : u2, y: Number(child.child("humidity").val())});
+    temperaturelist2.push({x : u2, y: Number(child.child("temperature").val())});
+    u2+=10;
+  });
+    
+  }, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+  });
+
+  var temp3
+  var u3=0;
+  ref3.on("value", function(snapshot) {
+    snapshot.forEach(function(child) {
+     fulllist3.push({x : u3, y: Number(child.child("full").val())});
+    humiditylist3.push({x : u3, y: Number(child.child("humidity").val())});
+    temperaturelist3.push({x : u3, y: Number(child.child("temperature").val())});
+    u3+=10;
+    
+  });
+   drawfullchart();
+   drawhumiditychart();
+   drawtemperaturechart();
+   tooglefullDataSeries(e);
+  }, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+  });
+  
+
+  
+  
+function drawfullchart(){
+var chart = new CanvasJS.Chart("chartContainer", {
+
+  title: {
+    text: "TrashCan full activity"
+  },
+  axisX: {
+    valueFormatString: "time"
+  },
+  axisY2: {
+    title: "Full Percentage",
+    prefix: "",
+    suffix: "%"
+  },
+  toolTip: {
+    shared: true
+  },
+  legend: {
+    cursor: "pointer",
+    verticalAlign: "top",
+    horizontalAlign: "center",
+    dockInsidePlotArea: true,
+    itemclick: toogleDataSeries
+  },
+  data: [{
+    type:"line",
+    axisYType: "secondary",
+    name: "trashcan1",
+    showInLegend: true,
+    markerSize: 0,
+    
+    dataPoints: fulllist
+  },
+  {
+    type: "line",
+    axisYType: "secondary",
+    name: "trashcan2",
+    showInLegend: true,
+    markerSize: 0,
+    
+    dataPoints: fulllist1
+  },
+  {
+    type: "line",
+    axisYType: "secondary",
+    name: "trashcan3",
+    showInLegend: true,
+    markerSize: 0,
+    
+    dataPoints: fulllist2
+  },
+  {
+    type: "line",
+    axisYType: "secondary",
+    name: "trashcan4",
+    showInLegend: true,
+    markerSize: 0,
+    
+    dataPoints: fulllist3
+    }]
+  });
+  chart.render();
+}
+
+function toogleDataSeries(e){
+  if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+    e.dataSeries.visible = false;
+  } else{
+    e.dataSeries.visible = true;
+  }
+  chart.render();
+}
+
+
+function drawhumiditychart(){
+var chart = new CanvasJS.Chart("chartContainerhumidity", {
+
+  title: {
+    text: "TrashCan humidity activity"
+  },
+  axisX: {
+    valueFormatString: "time"
+  },
+  axisY2: {
+    title: "Humidify",
+    prefix: "",
+    suffix: ""
+  },
+  toolTip: {
+    shared: true
+  },
+  legend: {
+    cursor: "pointer",
+    verticalAlign: "top",
+    horizontalAlign: "center",
+    dockInsidePlotArea: true,
+    itemclick: toogleDataSeries
+  },
+  data: [{
+    type:"line",
+    axisYType: "secondary",
+    name: "trashcan1",
+    showInLegend: true,
+    markerSize: 0,
+    
+    dataPoints: humiditylist
+  },
+  {
+    type: "line",
+    axisYType: "secondary",
+    name: "trashcan2",
+    showInLegend: true,
+    markerSize: 0,
+    
+    dataPoints: humiditylist1
+  },
+  {
+    type: "line",
+    axisYType: "secondary",
+    name: "trashcan3",
+    showInLegend: true,
+    markerSize: 0,
+    
+    dataPoints: humiditylist2
+  },
+  {
+    type: "line",
+    axisYType: "secondary",
+    name: "trashcan4",
+    showInLegend: true,
+    markerSize: 0,
+    
+    dataPoints: humiditylist3
+    }]
+  });
+  chart.render();
+}
+
+
+
+function drawtemperaturechart(){
+var chart = new CanvasJS.Chart("chartContainertemperature", {
+
+  title: {
+    text: "TrashCan temperature activity"
+  },
+  axisX: {
+    valueFormatString: "time"
+  },
+  axisY2: {
+    title: "Temperature",
+    prefix: "",
+    suffix: "℃"
+  },
+  toolTip: {
+    shared: true
+  },
+  legend: {
+    cursor: "pointer",
+    verticalAlign: "top",
+    horizontalAlign: "center",
+    dockInsidePlotArea: true,
+    itemclick: toogleDataSeries
+  },
+  data: [{
+    type:"line",
+    axisYType: "secondary",
+    name: "trashcan1",
+    showInLegend: true,
+    markerSize: 0,
+    
+    dataPoints: temperaturelist
+  },
+  {
+    type: "line",
+    axisYType: "secondary",
+    name: "trashcan2",
+    showInLegend: true,
+    markerSize: 0,
+    
+    dataPoints: temperaturelist1
+  },
+  {
+    type: "line",
+    axisYType: "secondary",
+    name: "trashcan3",
+    showInLegend: true,
+    markerSize: 0,
+    
+    dataPoints: temperaturelist2
+  },
+  {
+    type: "line",
+    axisYType: "secondary",
+    name: "trashcan4",
+    showInLegend: true,
+    markerSize: 0,
+    
+    dataPoints: temperaturelist3
+    }]
+  });
+  chart.render();
+}
+
+function tooglefullDataSeries(e){
+  if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+    e.dataSeries.visible = false;
+  } else{
+    e.dataSeries.visible = true;
+  }
+  chart.render();
+}
+
+
+
+  </script>
+
+</head>
+
+<body>
+<!--   <div id="chart-container"><svg width="90px"  height="90px"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-rolling" style="background: none;"><circle cx="50" cy="50" fill="none" ng-attr-stroke="{{config.color}}" ng-attr-stroke-width="{{config.width}}" ng-attr-r="{{config.radius}}" ng-attr-stroke-dasharray="{{config.dasharray}}" stroke="#6ac1a5" stroke-width="9" r="33" stroke-dasharray="155.50883635269477 53.83627878423159" transform="rotate(324 50 50)"><animateTransform attributeName="transform" type="rotate" calcMode="linear" values="0 50 50;360 50 50" keyTimes="0;1" dur="1s" begin="0s" repeatCount="indefinite"></animateTransform></circle></svg></div> -->
+
+  
+
+</canvas><canvas id="myChart"></canvas>
+
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+<br/>
+<br/>
+<div id="chartContainerhumidity" style="height: 300px; width: 100%;"></div>
+<br/>
+<br/>
+<div id="chartContainertemperature" style="height: 300px; width: 100%;"></div>
+
+
+</body>
+<script>
+ 
+  </script>
+  
+</html>
+
+
+

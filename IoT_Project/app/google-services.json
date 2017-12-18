@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1015578839695",
+    "firebase_url": "https://iot-trashcan-project.firebaseio.com",
+    "project_id": "iot-trashcan-project",
+    "storage_bucket": "iot-trashcan-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1015578839695:android:7c862dce25646e18",
+        "android_client_info": {
+          "package_name": "leon.iot_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1015578839695-a3apfek76vat7jqdiqenbh5j3fv8o3j6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSvIc3y886l7IVzV_4y0ykX4v4R0SYae4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
